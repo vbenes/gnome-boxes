@@ -245,6 +245,9 @@ def after_scenario(context, scenario):
                 context.app_class = App('gnome-boxes')
                 context.app = context.app_class.startViaCommand()
 
+
+        context.app_class.quit()
+
         # Attach journalctl logs
         if hasattr(context, "embed"):
             os.system("journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" \
@@ -252,8 +255,6 @@ def after_scenario(context, scenario):
             data = open("/tmp/journal-session.log", 'r').read()
             if data:
                 context.embed('text/plain', data)
-
-            context.app_class.quit()
 
             stdout = non_block_read(context.app_class.process.stdout)
             stderr = non_block_read(context.app_class.process.stderr)
