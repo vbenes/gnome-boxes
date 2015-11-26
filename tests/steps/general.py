@@ -94,13 +94,12 @@ def no_box_sign(context):
 def press_back_in_vm(context, action, vm):
     panel = context.app.child(vm).children[0].findChildren(lambda x: x.roleName == 'panel' and x.showing)[0]
     buttons = panel.findChildren(lambda x: x.roleName == 'push button' and x.showing)
-    menus = panel.findChildren(lambda x: x.name == 'Menu' and x.showing)
     if action == 'back':
         buttons[0].click()
     elif action == 'prefs':
         buttons[1].click()
     elif action == "Send key combinations":
-        menus[0].click()
+        panel.child('Keyboard shortcuts').click()
     else:
         context.app.child(vm).child(action).click()
     sleep(0.5)
