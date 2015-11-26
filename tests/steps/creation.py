@@ -15,9 +15,9 @@ def create_machine_from_menuitem(context, name, item):
     context.execute_steps(u"""
         * Create new box from menu "%s"
         * Press "Create"
-        * Wait for "sleep 1" end
+        * Wait for "sleep 0.2" end
         * Hit "Enter"
-        * Wait for "sleep 1" end
+        * Wait for "sleep 0.5" end
         * Hit "Enter"
         * Wait for "sleep 1" end
         * Hit "Enter"
@@ -92,7 +92,9 @@ def create_machine_from_menuitem_no_wait(context, name, item):
     context.execute_steps(u"""
         * Create new box from menu "%s"
         * Press "Create"
-        * Wait for "sleep 1" end
+        * Wait for "sleep 0.2" end
+        * Hit "Enter"
+        * Wait for "sleep 0.5" end
         * Hit "Enter"
         * Wait for "sleep 1" end
         * Hit "Enter"
