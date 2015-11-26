@@ -23,6 +23,7 @@ EXTRA_DIST =					\
 	build-aux/git-version-gen		\
 	m4/boxes.m4				\
 	.version				\
+	tests					\
 	$(INTLTOOL_FILES)			\
 	$(NULL)
 
