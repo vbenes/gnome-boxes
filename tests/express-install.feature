@@ -15,7 +15,7 @@ Feature: Express install
     * Press "Continue"
     * Press "Create"
     Then Installation of "Fedora 20" is finished in "30" minutes
-    * Save IP for machine "Fedora 20"
+    * Save reachable IP for machine "Fedora 20"
     Then Box "Fedora 20" "does" exist
     Then Go into "Fedora 20" box
     Then Press "back" in "Fedora 20" vm
@@ -36,7 +36,7 @@ Feature: Express install
     * Wait for "sleep 60" end
     Then Box "Fedora 21" "does" exist
     Then Go into "Fedora 21" box
-    * Save IP for machine "Fedora 21"
+    * Save reachable IP for machine "Fedora 21"
     Then Press "back" in "Fedora 21" vm
     Then Ping "Fedora 21"
     Then Verify "test" user with "secretpasswordnumber1" password in "Fedora 21"
@@ -55,7 +55,7 @@ Feature: Express install
     * Wait for "sleep 60" end
     Then Box "Fedora 22 Workstation" "does" exist
     Then Go into "Fedora 22 Workstation" box
-    * Save IP for machine "Fedora 22 Workstation"
+    * Save reachable IP for machine "Fedora 22 Workstation"
     Then Press "back" in "Fedora 22 Workstation" vm
     Then Ping "Fedora 22 Workstation"
     Then Verify "test" user with "secretpasswordnumber1" password in "Fedora 22 Workstation"
