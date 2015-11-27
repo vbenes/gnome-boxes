@@ -153,11 +153,8 @@ Feature: General
 
   @send_keycombos
   Scenario: Send key combos
-    * Create new box from menu "Core-5"
-    * Press "Create"
-    * Wait for "sleep 3" end
-    * Hit "Enter"
-    * Save IP for machine "Core-5"
+    * Create new box "Core-5"
+    * Go into "Core-5" box
     * Install TC Linux package "distro.ibiblio.org/tinycorelinux/3.x/tcz/showkey.tcz" and wait "1" seconds
     * Start showkey signal recording
     * Press "Send key combinations" in "Core-5" vm
@@ -169,7 +166,7 @@ Feature: General
     * Press "Send key combinations" in "Core-5" vm
     * Press "Ctrl + Alt + F7" in "Core-5" vm
     # showkey ends automatically after 10 seconds w/o signals
-    * Wait for "sleep 9" end
+    * Wait for "sleep 10" end
     * Focus VM
     # If all signals received as expected turn down network
     Then Verify previously recorded signals
