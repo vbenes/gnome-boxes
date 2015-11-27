@@ -38,7 +38,7 @@ Feature: General
   @download_iso_http
   Scenario: Download iso http
     * Create new box from url "http://ftp.vim.org/os/Linux/distr/tinycorelinux/5.x/x86/archive/5.2/Core-5.2.iso"
-    * Wait for "sleep 10" end
+    * Wait for "sleep 2" end
     * Hit "Enter"
     * Save IP for machine "Core-5"
     * Press "back" in "Core-5" vm
@@ -80,7 +80,7 @@ Feature: General
     * Quit Boxes
     * Start box name "Core-5"
     * Type text "sudo ifconfig eth0 down" and return
-    * Wait for "sleep 4" end
+    * Wait for "sleep 2" end
     Then Cannot ping "Core-5"
 
   @search_via_shortcut
