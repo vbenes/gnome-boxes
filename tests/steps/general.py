@@ -185,30 +185,45 @@ def libvirt_domain_get_mac(vm_title):
             return libvirt_domain_get_val(ctx, "/domain/devices/interface/mac/@address")
     return mac
 
-def get_ip_from_ip_neigh_cmd(mac):
+def get_ip_from_ip_neigh_cmd(mac, reachable):
     out = ""
     wait = 0
     while wait < 120:
-        cmd = Popen("ip neigh show nud reachable\
-                        |grep %s\
-                        |tail -n 1\
-                        |grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'"
-                        %mac, shell=True, stdout=PIPE)
+        if reachable:
+            cmd = Popen("ip neigh show nud reachable\
+                            |grep %s\
+                            |tail -n 1\
+                            |grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'"
+                            %mac, shell=True, stdout=PIPE)
+        else:
+            cmd = Popen("ip neigh show\
+                            |grep %s\
+                            |tail -n 1\
+                            |grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'"
+                            %mac, shell=True, stdout=PIPE)
 
         out = cmd.communicate()[0]
         ret = cmd.wait()
         if out != "":
             return out.strip()
-        sleep(0.25)
+        sleep(TIMER*3)
         wait += 1
     return None
 
+
+@step('Save reachable IP for machine "{vm}"')
+def ip_for_reachable_vm(context, vm):
+    save_ip_for_vm(context, vm, reachable=True)
+
 @step('Save IP for machine "{vm}"')
-def save_ip_for_vm(context, vm):
+def ip_for_vm(context, vm):
+    save_ip_for_vm(context, vm)
+
+def save_ip_for_vm(context, vm, reachable=False):
     if not hasattr(context, 'ips'):
         context.ips = {}
 
-    ip = get_ip_from_ip_neigh_cmd(libvirt_domain_get_mac(vm))
+    ip = get_ip_from_ip_neigh_cmd(libvirt_domain_get_mac(vm), reachable)
 
     if not ip:
         raise Exception("No address was assigned for this machine %s" %vm)
