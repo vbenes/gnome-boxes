@@ -120,14 +120,9 @@ class App(object):
         if self.a11yAppName is None:
             self.a11yAppName = self.internCommand
 
-        # Trap weird bus errors
-        for attempt in xrange(0, 10):
-            sleep(1)
-            try:
-                return self.a11yAppName in [x.name for x in root.applications()]
-            except GLib.GError:
-                continue
-        raise Exception("10 at-spi errors, seems that bus is blocked")
+        if self.a11yAppName in [x.name for x in root.applications()]:
+            return True
+        return False
 
     def quit(self):
         """
@@ -167,7 +162,6 @@ class App(object):
                              stdout=PIPE, stderr=PIPE, bufsize=0)
         self.pid = self.process.pid
 
-        assert self.isRunning(), "Application failed to start"
         return root.application(self.a11yAppName)
 
     def closeViaShortcut(self):
@@ -192,3 +186,4 @@ def non_block_read(output):
 @step(u'Make sure that {app} is running')
 def ensure_app_running(context, app):
     context.app = context.app_class.startViaCommand()
+    sleep(0.5)

@@ -243,8 +243,6 @@ def after_scenario(context, scenario):
             if 'system_broker' in tag:
                 call("rm -rf ~/.cache/gnome-boxes/sources/qemu____system", shell=True)
                 context.app_class.quit()
-                context.app_class = App('gnome-boxes')
-                context.app = context.app_class.startViaCommand()
 
 
         context.app_class.quit()
