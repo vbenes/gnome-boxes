@@ -110,6 +110,7 @@ Feature: System Broker
     * Start Boxes
     * Create new box from menu "Import 2 boxes from system broker"
     * Press "Create"
+    * Wait for "sleep 5" end
     Then Box "Core-5.3" "does" exist
     Then Go into "Core-5.3" box
     Then Press "back" in "Core-5.3" vm
