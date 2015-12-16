@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from behave import step
 from dogtail.tree import root
 from dogtail.rawinput import typeText, pressKey, keyCombo
+from dogtail.utils import GnomeShell
 from time import sleep
 from common_steps import wait_until
 from subprocess import call, check_output, Popen, CalledProcessError, PIPE
@@ -252,12 +253,13 @@ def select_vm(context, vm):
 @step('Select "{action}" from supermenu')
 def select_menu_action(context, action):
     keyCombo("<Super_L><F10>")
-    if action == 'About':
-        pressKey('Down')
-    if action == 'Quit':
-        pressKey('Down')
-        pressKey('Down')
-    pressKey('Enter')
+    gs = GnomeShell()
+    buttons = gs.getApplicationMenuList()
+    for button in buttons:
+        if button.name == action:
+            button.click()
+            break
+
 
 @step('Start Boxes')
 def start_boxes(context):
