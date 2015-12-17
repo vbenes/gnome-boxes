@@ -48,14 +48,22 @@ def hit_keycombo(context, keycombo):
 
     sleep(0.2)
 
-@step('"{pattern}" is visible with command "{command}"')
+@step(u'"{pattern}" is visible with command "{command}"')
 def check_pattern_visible(context, pattern, command):
-    sleep(0.2) # time for all to get set
-    try:
-        out = check_output(command, stderr=STDOUT, shell=True)
-    except CalledProcessError as e:
-        out = e.output
-    assert out.find(pattern) != -1, 'pattern %s is not visible with %s' % (pattern, command)
+    cmd = '/bin/bash -c "%s"' %command
+    seconds = 5
+    orig_seconds = seconds
+    while seconds > 0:
+        try:
+            out = check_output(command, stderr=STDOUT, shell=True)
+            if out.find(pattern) != -1:
+                return True
+
+        except:
+            pass
+        seconds = seconds - 1
+        sleep(1)
+    raise Exception('Did not see the pattern %s in %d seconds' % (pattern, orig_seconds))
 
 @step('"{pattern}" is not visible with command "{command}"')
 def check_pattern_not_visible(context, pattern, command):
