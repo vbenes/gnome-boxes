@@ -149,7 +149,7 @@ def before_all(context):
         config.logDebugToStdOut = False
         config.typingDelay = 0.1
         config.childrenLimit = 500
-        config.actionDelay = 0.3
+        config.actionDelay = 0.5
 
         # Include assertion object
         context.assertion = dummy()
