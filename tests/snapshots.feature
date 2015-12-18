@@ -26,6 +26,9 @@ Feature: Snapshots
     * Initiate new box "Core-5" installation
     * Create snapshot "working network" from machine "Core-5"
     * Create snapshot "network down" from machine "Core-5"
+    When "network down" is visible with command "virsh snapshot-current boxes-unknown |grep description"
     * Delete machines "Core-5" snapshot "working network"
+    When "network down" is visible with command "virsh snapshot-current boxes-unknown |grep description"
     * Delete machines "Core-5" snapshot "network down"
-    Then "error: domain 'boxes-unknown' has no current snapshot" is visible with command "virsh snapshot-current boxes-unknown"
+    Then "network down" is not visible with command "virsh snapshot-current boxes-unknown |grep description"
+    And "network down" is not visible with command "virsh snapshot-current boxes-unknown |grep description"

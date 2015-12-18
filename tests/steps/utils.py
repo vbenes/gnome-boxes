@@ -5,6 +5,7 @@ from behave import step
 from dogtail.rawinput import typeText, pressKey, keyCombo
 from time import sleep
 from subprocess import call, check_output, CalledProcessError, STDOUT
+import pexpect
 
 def get_showing_node_name(name, parent, timeout=30, step=0.25):
     wait = 0
@@ -54,22 +55,25 @@ def check_pattern_visible(context, pattern, command):
     seconds = 5
     orig_seconds = seconds
     while seconds > 0:
-        try:
-            out = check_output(command, stderr=STDOUT, shell=True)
-            if out.find(pattern) != -1:
-                return True
-
-        except:
-            pass
+        out = pexpect.spawn(cmd, timeout = 180 )
+        if out.expect([pattern, pexpect.EOF]) == 0:
+            return True
         seconds = seconds - 1
         sleep(1)
     raise Exception('Did not see the pattern %s in %d seconds' % (pattern, orig_seconds))
 
-@step('"{pattern}" is not visible with command "{command}"')
+@step(u'"{pattern}" is not visible with command "{command}"')
 def check_pattern_not_visible(context, pattern, command):
-    sleep(0.2) # time for all to get set
-    out = check_output(command, shell=True)
-    assert out.find(pattern) == -1, 'pattern %s is visible with %s' % (pattern, command)
+    cmd = '/bin/bash -c "%s"' %command
+    seconds = 5
+    orig_seconds = seconds
+    while seconds > 0:
+        out = pexpect.spawn(cmd, timeout = 180)
+        if out.expect([pattern, pexpect.EOF]) != 0:
+            return True
+        seconds = seconds - 1
+        sleep(1)
+    raise Exception('Did still see the pattern %s after %d seconds' % (pattern, orig_seconds))
 
 @step('Ping "{vm}"')
 def ping_vm(context, vm):

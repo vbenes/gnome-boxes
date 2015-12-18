@@ -76,8 +76,9 @@ def go_into_vm(context, vm):
 @step('Help is shown')
 def help_shown(context):
     sleep(1)
-    yelp = root.application('yelp')
-    assert yelp.child('Boxes') != None, "Yelp wasn't opened"
+    yelp = root.application('yelp').child('Boxes')
+    call("pkill -9 yelp", shell=True)
+    assert yelp != None, "Yelp wasn't opened"
 
 @step('Install TC Linux package "{pkg}" and wait "{time}" seconds')
 def install_tc_linux_package(context, pkg, time):

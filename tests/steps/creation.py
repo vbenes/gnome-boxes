@@ -43,9 +43,9 @@ def create_new_vm_via_file(context, location):
 
     for item in path:
         context.app.child(item).click()
-        #if item.endswith('vmdk') or item.endswith('qcow2'):
-        context.app.child('Open').click()
-        sleep(0.5)
+        if item.endswith('vmdk') or item.endswith('qcow2') or item.endswith('iso'):
+            context.app.child(item).click()
+           #context.app.child('Open').click()
 
 @step('Create new box from url "{url}"')
 def create_new_vm_via_url(context, url):
