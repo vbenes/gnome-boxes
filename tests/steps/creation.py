@@ -45,6 +45,7 @@ def create_new_vm_via_file(context, location):
         context.app.child(item).click()
         #if item.endswith('vmdk') or item.endswith('qcow2'):
         context.app.child('Open').click()
+        sleep(0.5)
 
 @step('Create new box from url "{url}"')
 def create_new_vm_via_url(context, url):
