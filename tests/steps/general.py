@@ -78,6 +78,7 @@ def help_shown(context):
     sleep(1)
     yelp = root.application('yelp').child('Boxes')
     call("pkill -9 yelp", shell=True)
+    sleep(2)
     assert yelp != None, "Yelp wasn't opened"
 
 @step('Install TC Linux package "{pkg}" and wait "{time}" seconds')
