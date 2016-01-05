@@ -37,7 +37,7 @@ def create_machine(context, name):
 @step('Create new box from file "{location}"')
 def create_new_vm_via_file(context, location):
     path = location.split('/')
-    context.app.child('New').click()
+    get_showing_node_name('New', context.app).click()
     context.app.child('Continue').click()
     context.app.child('Select a file').click()
 
@@ -49,7 +49,7 @@ def create_new_vm_via_file(context, location):
 
 @step('Create new box from url "{url}"')
 def create_new_vm_via_url(context, url):
-    context.app.child('New').click()
+    get_showing_node_name('New', context.app).click()
     context.app.child('Continue').click()
     context.app.child('Enter URL').click()
 
@@ -75,7 +75,7 @@ def create_new_vm_via_url(context, url):
 
 @step('Create new box from menu "{sys_name}"')
 def create_new_vm_from_menu(context, sys_name):
-    context.app.child('New').click()
+    get_showing_node_name('New', context.app).click()
     get_showing_node_name(sys_name, context.app).click()
 
 @step('Import machine "{name}" from image "{location}"')
