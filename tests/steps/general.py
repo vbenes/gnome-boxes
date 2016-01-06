@@ -11,6 +11,7 @@ from subprocess import call, check_output, Popen, CalledProcessError, PIPE
 import re
 import libvirt
 import libxml2
+from utils import get_showing_node_name
 
 TIMER = 0.2
 
