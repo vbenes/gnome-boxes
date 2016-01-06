@@ -100,7 +100,7 @@ def press_back_in_vm(context, action, vm):
     panel = context.app.child(vm).children[0].findChildren(lambda x: x.roleName == 'panel' and x.showing)[0]
     buttons = panel.findChildren(lambda x: x.roleName == 'push button' and x.showing)
     if action == 'back':
-        buttons[0].click()
+        get_showing_node_name('Back', context.app).click()
     elif action == 'prefs':
         buttons[1].click()
     elif action == "Send key combinations":
