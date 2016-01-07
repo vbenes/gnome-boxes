@@ -135,10 +135,9 @@ Feature: LiceCD
     * Create new box "Core-5"
     * Select "Core-5" box
     * Press "Pause"
-    * Wait for "sleep 2" end
-    * Hit "Esc"
+    * Wait for "sleep 10" end
     * Go into "Core-5" box
-    * Wait for "sleep 12" end
+    * Wait for "sleep 10" end
     Then Ping "Core-5"
 
   @force_shutdown_local_machine
