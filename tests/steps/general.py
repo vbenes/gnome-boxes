@@ -71,7 +71,7 @@ def go_into_vm(context, vm):
     for child in pane.children:
         if child.text == vm:
             child.click()
-            sleep(TIMER)
+            sleep(3*TIMER)
             break
 
 @step('Help is shown')
