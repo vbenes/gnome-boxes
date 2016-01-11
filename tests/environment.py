@@ -247,19 +247,19 @@ def after_scenario(context, scenario):
 
         if hasattr(context, "embed"):
             # Attach journalctl logs
-            os.system("sudo journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
+            os.system("sudo journalctl --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
             data = open("/tmp/journal-session.log", 'r').read()
             if data:
-                context.embed('text/plain', data, caption="Session logs")
+                context.embed('text/plain', data, caption="Journal")
 
             # Attach stdout
             stdout = non_block_read(context.app_class.process.stdout)
             if stdout:
-                context.embed('text/plain', stdout, caption="stdout")
+                context.embed('text/plain', stdout, caption="Stdout")
 
             stderr = non_block_read(context.app_class.process.stderr)
             if stderr:
-                context.embed('text/plain', stderr, caption="stderr")
+                context.embed('text/plain', stderr, caption="Stderr")
 
             if hasattr(context, "app_class") and context.app_class.recordVideo:
                 videos_dir = os.path.expanduser('~/Videos')

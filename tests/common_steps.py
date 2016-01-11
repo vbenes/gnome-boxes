@@ -111,6 +111,8 @@ class App(object):
 
         # attempt to make a recording of the test
         if self.recordVideo:
+            cmd = "gsettings set org.gnome.settings-daemon.plugins.media-keys max-screencast-length 600"
+            Popen(cmd, shell=True, stdout=PIPE).wait()
             keyCombo('<Control><Alt><Shift>R')
 
     def isRunning(self):
