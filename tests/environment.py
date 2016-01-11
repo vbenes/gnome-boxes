@@ -261,7 +261,7 @@ def after_scenario(context, scenario):
             if stderr:
                 context.embed('text/plain', stderr, caption="stderr")
 
-            if hasattr(context, "app") and context.app.recordVideo:
+            if hasattr(context, "app_class") and context.app_class.recordVideo:
                 videos_dir = os.path.expanduser('~/Videos')
                 onlyfiles = [f for f in os.listdir(videos_dir) if os.path.isfile(os.path.join(videos_dir, f))]
                 onlyfiles.sort()
