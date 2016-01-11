@@ -157,7 +157,7 @@ def before_all(context):
         # Store scenario start time for session logs
         context.log_start_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
-        context.app_class = App('gnome-boxes')
+        context.app_class = App('gnome-boxes', recordVideo=True)
 
     except Exception as e:
         print("Error in before_all: %s" % e.message)
@@ -242,27 +242,34 @@ def after_scenario(context, scenario):
         for tag in scenario.tags:
             if 'system_broker' in tag:
                 call("rm -rf ~/.cache/gnome-boxes/sources/qemu____system", shell=True)
-                context.app_class.quit()
-
 
         context.app_class.quit()
 
-        # Attach journalctl logs
         if hasattr(context, "embed"):
-            os.system("journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" \
-                                                                                            % context.log_start_time)
+            # Attach journalctl logs
+            os.system("sudo journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
             data = open("/tmp/journal-session.log", 'r').read()
             if data:
-                context.embed('text/plain', data)
+                context.embed('text/plain', data, caption="Session logs")
 
-            stdout = non_block_read(context.app_class.process.stdout)
-            stderr = non_block_read(context.app_class.process.stderr)
-
+            # Attach stdout
+            stdout = context.app.getStdout().strip()
             if stdout:
-                context.embed('text/plain', stdout)
+                context.embed('text/plain', stdout, caption="stdout")
 
+            stderr = context.app.getStderr().strip()
             if stderr:
-                context.embed('text/plain', stderr)
+                context.embed('text/plain', stderr, caption="stderr")
+
+            if hasattr(context, "app") and context.app.recordVideo:
+                videos_dir = os.path.expanduser('~/Videos')
+                onlyfiles = [f for f in os.listdir(videos_dir) if os.path.isfile(os.path.join(videos_dir, f))]
+                onlyfiles.sort()
+                if onlyfiles != []:
+                    video = os.path.join(videos_dir, onlyfiles[-1])
+                    if hasattr(context, "embed"):
+                        context.embed('video/webm', open(video, 'r').read(), caption="Video")
+
 
         f = open(os.devnull, "w")
 
