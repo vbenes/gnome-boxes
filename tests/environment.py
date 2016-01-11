@@ -253,11 +253,11 @@ def after_scenario(context, scenario):
                 context.embed('text/plain', data, caption="Session logs")
 
             # Attach stdout
-            stdout = context.app.getStdout().strip()
+            stdout = non_block_read(context.app_class.process.stdout)
             if stdout:
                 context.embed('text/plain', stdout, caption="stdout")
 
-            stderr = context.app.getStderr().strip()
+            stderr = non_block_read(context.app_class.process.stderr)
             if stderr:
                 context.embed('text/plain', stderr, caption="stderr")
 
