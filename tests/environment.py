@@ -247,13 +247,10 @@ def after_scenario(context, scenario):
 
         if hasattr(context, "embed"):
             # Attach journalctl logs
-            try:
-                os.system("sudo journalctl --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
-                data = open("/tmp/journal-session.log", 'r').read()
-                if data:
-                    context.embed('text/plain', data, caption="Journal")
-            except:
-                pass
+            # os.system("sudo journalctl --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
+            # data = open("/tmp/journal-session.log", 'r').read()
+            # if data:
+            #     context.embed('text/plain', data, caption="Journal")
 
             # Attach stdout
             stdout = non_block_read(context.app_class.process.stdout)
