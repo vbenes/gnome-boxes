@@ -194,13 +194,13 @@ def get_ip_from_ip_neigh_cmd(mac, reachable):
     wait = 0
     while wait < 120:
         if reachable:
-            cmd = Popen("ip neigh show nud reachable\
+            cmd = Popen("ip neighbour show dev virbr0 nud reachable\
                             |grep %s\
                             |tail -n 1\
                             |grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'"
                             %mac, shell=True, stdout=PIPE)
         else:
-            cmd = Popen("ip neigh show\
+            cmd = Popen("ip neighbour show dev virbr0\
                             |grep %s\
                             |tail -n 1\
                             |grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'"
