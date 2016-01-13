@@ -255,9 +255,11 @@ def select_vm(context, vm):
 
 @step('Select "{action}" from supermenu')
 def select_menu_action(context, action):
+    sleep(0.5)
     keyCombo("<Super_L><F10>")
     gs = GnomeShell()
     buttons = gs.getApplicationMenuList()
+    sleep(0.5)
     for button in buttons:
         if button.name == action:
             button.click()
