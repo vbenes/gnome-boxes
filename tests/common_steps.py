@@ -122,8 +122,14 @@ class App(object):
         if self.a11yAppName is None:
             self.a11yAppName = self.internCommand
 
-        if self.a11yAppName in [x.name for x in root.applications()]:
-            return True
+        try:
+            if self.a11yAppName in [x.name for x in root.applications()]:
+                return True
+        except:
+            sleep 10
+            if self.a11yAppName in [x.name for x in root.applications()]:
+                return True
+
         return False
 
     def quit(self):
