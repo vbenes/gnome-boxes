@@ -126,7 +126,7 @@ class App(object):
             if self.a11yAppName in [x.name for x in root.applications()]:
                 return True
         except:
-            sleep 10
+            sleep(10)
             if self.a11yAppName in [x.name for x in root.applications()]:
                 return True
 
