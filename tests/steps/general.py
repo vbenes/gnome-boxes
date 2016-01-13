@@ -43,7 +43,8 @@ def number_of_windows(context, num):
 
 @step('Customize mem to "{mem}" MB')
 def customize_vm(context, mem):
-    get_showing_node_name('Customize…', context.app).click()
+    sleep(1)
+    context.app.child('Customize…').click()
     sleep(TIMER)
     pressKey('Tab')
     pressKey('Tab')
