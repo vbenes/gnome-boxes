@@ -23,10 +23,15 @@ def about_shown(context):
 def does_box_exists(context, name, state):
     found = False
     pane = context.app.child(roleName='layered pane')
-    for child in pane.children:
-        if child.text == name:
-            found = True
-            break
+    counter = 0
+    # on slower machines more attempts may be needed
+    while counter < 5:
+        for child in pane.children:
+            if child.text == name:
+                found = True
+                break
+        sleep(5*TIMER)
+        counter += 1
 
     if state == 'does':
         assert found == True, "Machine %s was not found in overview" % name
