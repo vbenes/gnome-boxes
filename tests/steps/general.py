@@ -30,6 +30,8 @@ def does_box_exists(context, name, state):
             if child.text == name:
                 found = True
                 break
+        if found:
+            break
         sleep(5*TIMER)
         counter += 1
 
