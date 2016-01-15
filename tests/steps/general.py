@@ -304,7 +304,7 @@ def verify_existing_showkey_signals(context):
 def start_boxes_via_vm(context, box):
     cmd = 'gnome-boxes %s' %box
     Popen(cmd, shell=True)
-    sleep(5)
+    sleep(10)
     context.app = root.application('gnome-boxes')
 
 @step('Verify back button "{state}" visible for machine "{vm_name}"')

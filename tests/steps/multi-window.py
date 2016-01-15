@@ -26,7 +26,7 @@ def focus_window(context, window):
         context.app.findChildren(lambda x: x.name == 'New' and x.showing and x.sensitive)[0].grabFocus()
     else:
         core = find_window(context, window)
-        button = core.findChildren(lambda x: x.roleName == 'toggle button' and x.showing)[1]
+        button = core.child('Actions')
         button.grabFocus()
         sleep(0.5)
         pressKey('Tab')
@@ -43,7 +43,7 @@ def open_new_windows(context, vm_names_list):
 
     # Click open in new windows
     context.app.findChildren(lambda x: x.name == button and x.showing and x.sensitive)[0].click()
-    sleep(3)
+    sleep(5)
 
     for vm_name in vm_names:
         # Ensure we have a window for each box

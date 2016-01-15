@@ -28,7 +28,7 @@ Feature: General
 
   @quit_via_shortcut
   Scenario: Quit Boxes via shortcut
-    * Select "Quit" from supermenu
+    * Quit Boxes
     Then Boxes are not running
 
   @no_boxes

@@ -243,7 +243,32 @@ def after_scenario(context, scenario):
             if 'system_broker' in tag:
                 call("rm -rf ~/.cache/gnome-boxes/sources/qemu____system", shell=True)
 
-        context.app_class.quit()
+        if "quit_via_panel" not in scenario.tags and "quit_via_shortcut" not in scenario.tags:
+            if "open_in_new_window" in scenario.tags \
+            or "poweroff_in_new_window" in scenario.tags \
+            or "open_three_new_windows"  in scenario.tags:
+                context.execute_steps(u"""* Focus "main" window""")
+            else:
+                context.execute_steps(u"""
+                    * Hit "Esc"
+                    * Hit "Esc"
+                     """)
+
+            backs = []
+            backs = context.app.findChildren(lambda x: x.name == 'Back' and x.showing)
+            if len(backs) != 0:
+                if backs[0].showing:
+                    backs[0].click()
+
+            if context.app.child(roleName='layered pane').children != []:
+                context.execute_steps(u"""
+                    * Press "Select Items"
+                    * Press "(Click on items to select them)"
+                    * Press "Select All"
+                    * Press "Delete"
+                    * Close warning""")
+            #context.execute_steps(u"""* Quit Boxes""")
+            context.app_class.quit()
 
         if hasattr(context, "embed"):
             # Attach journalctl logs
