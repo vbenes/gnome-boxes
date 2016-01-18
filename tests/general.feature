@@ -42,8 +42,8 @@ Feature: General
     * Hit "Enter"
     * Save IP for machine "Core-6"
     * Press "back" in "Core-6" vm
-    Then Box "Core-6" "does" exist
-    Then Ping "Core-6"
+    Then Box "CorePure64-6" "does" exist
+    Then Ping "CorePure64-6"
 
   @customize_machine_before_installation
   Scenario: Customize machine before installation
