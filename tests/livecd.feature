@@ -153,11 +153,11 @@ Feature: LiveCD
   Scenario: LiveCD restart persistence
     * Initiate new box "Core-current" installation
     * Initiate new box "Core-current 2" installation from "Core-current" menuitem
-    * Import machine "Core-current" from image "Downloads/Core-5.3.qcow2"
-    * Import machine "Core-current" from image "Downloads/Core-5.3.vmdk"
+    * Import machine "Core-5 3" from image "Downloads/Core-5.3.qcow2"
+    * Import machine "Core-5 4" from image "Downloads/Core-5.3.vmdk"
     * Quit Boxes
     * Start Boxes
     Then Box "Core-current" "does" exist
     Then Box "Core-current 2" "does" exist
-    Then Box "Core-current 3" "does" exist
-    Then Box "Core-current 4" "does" exist
+    Then Box "Core-5 3" "does" exist
+    Then Box "Core-5 4" "does" exist
