@@ -139,6 +139,7 @@ def before_all(context):
 
             # Download Core-5.3.iso and images for import if not there
             downloadfile('http://distro.ibiblio.org/tinycorelinux/5.x/x86/archive/5.3/Core-5.3.iso')
+            downloadfile('http://distro.ibiblio.org/tinycorelinux/6.x/x86/release/Core-current.iso')
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.vmdk')
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.qcow2')
             call('cp ~/Downloads/Core-5.3.iso /tmp', shell=True)
