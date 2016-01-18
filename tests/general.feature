@@ -40,8 +40,8 @@ Feature: General
     * Create new box from url "http://ftp.vim.org/os/Linux/distr/tinycorelinux/6.x/x86_64/archive/6.3/CorePure64-6.3.iso"
     * Wait for "sleep 2" end
     * Hit "Enter"
-    * Save IP for machine "Core-6"
-    * Press "back" in "Core-6" vm
+    * Save IP for machine "CorePure64-6"
+    * Press "back" in "CorePure64-6" vm
     Then Box "CorePure64-6" "does" exist
     Then Ping "CorePure64-6"
 
