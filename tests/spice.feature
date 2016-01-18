@@ -6,7 +6,7 @@ Feature: Spice
 
   @new_spice_localhost_box
   Scenario: New spice box
-    * Create new box "Core-5"
+    * Create new box "Core-current"
     * Create new box from url "spice://127.0.0.1?port=5900;"
     * Wait for "sleep 2" end
     * Press "Create"
@@ -15,11 +15,11 @@ Feature: Spice
     * Wait for "sleep 1" end
     * Type text "sudo ifconfig eth0 down" and return
     * Wait for "sleep 5" end
-    Then Cannot ping "Core-5"
+    Then Cannot ping "Core-current"
 
   @spice_restart_persistence
   Scenario: Spice system persistence
-    * Initiate new box "Core-5" installation
+    * Initiate new box "Core-current" installation
     * Create new box from url "spice://127.0.0.1?port=5900;"
     * Wait for "sleep 1" end
     * Press "Create"

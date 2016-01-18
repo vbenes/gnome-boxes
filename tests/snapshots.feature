@@ -6,29 +6,29 @@ Feature: Snapshots
 
   @snapshots_create_an_revert
   Scenario: Create snapshots and revert to them
-    * Create new box "Core-5"
-    * Create snapshot "working network" from machine "Core-5"
-    * Go into "Core-5" box
+    * Create new box "Core-current"
+    * Create snapshot "working network" from machine "Core-current"
+    * Go into "Core-current" box
     * Wait for "sleep 1" end
     * Type text "sudo ifconfig eth0 down" and return
-    * Press "back" in "Core-5" vm
-    * Create snapshot "network down" from machine "Core-5"
+    * Press "back" in "Core-current" vm
+    * Create snapshot "network down" from machine "Core-current"
     When "network down" is visible with command "virsh snapshot-current boxes-unknown |grep description"
-    When Cannot ping "Core-5"
-    * Revert machine "Core-5" to state "working network"
+    When Cannot ping "Core-current"
+    * Revert machine "Core-current" to state "working network"
     When "working network" is visible with command "virsh snapshot-current boxes-unknown |grep description"
-    When Ping "Core-5"
-    * Revert machine "Core-5" to state "network down"
-    Then Cannot ping "Core-5"
+    When Ping "Core-current"
+    * Revert machine "Core-current" to state "network down"
+    Then Cannot ping "Core-current"
 
   @delete_snapshots
   Scenario: Delete snapshots
-    * Initiate new box "Core-5" installation
-    * Create snapshot "working network" from machine "Core-5"
-    * Create snapshot "network down" from machine "Core-5"
+    * Initiate new box "Core-current" installation
+    * Create snapshot "working network" from machine "Core-current"
+    * Create snapshot "network down" from machine "Core-current"
     When "network down" is visible with command "virsh snapshot-current boxes-unknown |grep description"
-    * Delete machines "Core-5" snapshot "working network"
+    * Delete machines "Core-current" snapshot "working network"
     When "network down" is visible with command "virsh snapshot-current boxes-unknown |grep description"
-    * Delete machines "Core-5" snapshot "network down"
+    * Delete machines "Core-current" snapshot "network down"
     Then "network down" is not visible with command "virsh snapshot-current boxes-unknown |grep description"
     And "network down" is not visible with command "virsh snapshot-current boxes-unknown |grep description"
