@@ -93,10 +93,13 @@ def help_shown(context):
 @step('Install TC Linux package "{pkg}" and wait "{time}" seconds')
 def install_tc_linux_package(context, pkg, time):
     if "/" in pkg:
-        call("xdotool type --delay 150 'wget %s\n'" %pkg, shell=True)
-        call("xdotool type --delay 150 'tce-load -i %s\n'" %pkg.split('/')[-1], shell=True)
+        call("xdotool type --delay 150 'wget %s'" %pkg, shell=True)
+        call("xdotool key 'Return'", shell=True)
+        call("xdotool type --delay 150 'tce-load -i %s'" %pkg.split('/')[-1], shell=True)
+        call("xdotool key 'Return'", shell=True)
     else:
-        typeText('tce-load -wi %s\n' %pkg)
+        call("xdotool type --delay 150 'tce-load -wi %s'" %pkg, shell=True)
+        call("xdotool key 'Return'", shell=True)
 
     sleep(int(time))
 
@@ -284,7 +287,8 @@ def start_boxes(context):
 @step('Start showkey signal recording')
 def start_showkey_recording(context):
     # Have to sleep a bit before as otherwise release of return can be caught
-    call("xdotool type --delay 100 'sleep 0.5; showkey > /tmp/showkey.txt\n'", shell=True)
+    call("xdotool type --delay 100 'sleep 0.5; showkey > /tmp/showkey.txt'", shell=True)
+    call("xdotool key 'Return'", shell=True)
     sleep(1)
 
 @step('Verify previously recorded signals')
