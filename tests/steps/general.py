@@ -293,7 +293,8 @@ def start_showkey_recording(context):
 
 @step('Verify previously recorded signals')
 def verify_existing_showkey_signals(context):
-    call("xdotool type --delay 100 'grep keycode /tmp/showkey.txt > /tmp/final.txt\n'", shell=True)
+    call("xdotool type --delay 100 'grep keycode /tmp/showkey.txt > /tmp/final.txt'", shell=True)
+    call("xdotool key 'Return'", shell=True)
     # If all signals received as expected
     call("xdotool type --delay 100 'if [[ \"$(echo $(sed \"s/keycode//g\" /tmp/final.txt))\" == '", shell=True)
     call("xdotool type --delay 100 ' \"29 press 56 press 14 press 14 release 56 release 29 release'", shell=True)
@@ -301,7 +302,8 @@ def verify_existing_showkey_signals(context):
     call("xdotool type --delay 100 ' 29 press 56 press 60 press 60 release 56 release 29 release'", shell=True)
     call("xdotool type --delay 100 ' 29 press 56 press 65 press 65 release 56 release 29 release\"'", shell=True)
     # Turn down network so observer from outside the VM can say pass/fail.
-    call("xdotool type --delay 100 ' ]]; then sudo ifconfig eth0 down; fi\n'", shell=True)
+    call("xdotool type --delay 100 ' ]]; then sudo ifconfig eth0 down; fi'", shell=True)
+    call("xdotool key 'Return'", shell=True)
     sleep(TIMER)
 
 @step('Start box name "{box}"')
