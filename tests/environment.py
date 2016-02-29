@@ -133,9 +133,9 @@ def before_all(context):
         if not os.path.isfile('/tmp/boxes_configured'):
             print("** Turning off gnome idle")
             if call("gsettings set org.gnome.desktop.session idle-delay 0", shell=True) == 0:
-                print("PASS\n")
+                print("* Done\n")
             else:
-                print("FAIL: unable to turn off screensaver. This can cause failures")
+                print("* Warning: unable to turn off screensaver. This can cause failures")
 
             # Download Core-5.3.iso and images for import if not there
             downloadfile('http://distro.ibiblio.org/tinycorelinux/5.x/x86/archive/5.3/Core-5.3.iso')
@@ -144,7 +144,12 @@ def before_all(context):
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.qcow2')
             call('cp ~/Downloads/Core-5.3.iso /tmp', shell=True)
             call('cp ~/Downloads/Core-5.3.qcow2 /tmp', shell=True)
-            call('touch /tmp/boxes_configured', shell=True)
+            if os.path.isfile('/home/test/Downloads/Core-current.iso') and \
+               os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
+               os.path.isfile('/tmp/Core-5.3.vmdk') and \
+               os.path.isfile('/tmp/Core-5.3.qcow2'):
+                print ("* Downloading complete!")
+                call('touch /tmp/boxes_configured', shell=True)
 
         # Skip dogtail actions to print to stdout
         config.logDebugToStdOut = False
@@ -258,12 +263,12 @@ def after_scenario(context, scenario):
                          """)
 
                 backs = []
-                backs = context.app_class.findChildren(lambda x: x.name == 'Back' and x.showing)
+                backs = context.app.findChildren(lambda x: x.name == 'Back' and x.showing)
                 if len(backs) != 0:
                     if backs[0].showing:
                         backs[0].click()
 
-                if context.app_class.child(roleName='layered pane').children != []:
+                if context.app.child(roleName='layered pane').children != []:
                     context.execute_steps(u"""
                         * Press "Select Items"
                         * Press "(Click on items to select them)"
@@ -271,7 +276,7 @@ def after_scenario(context, scenario):
                         * Press "Delete"
                         * Close warning""")
                 #context.execute_steps(u"""* Quit Boxes""")
-                
+
                 context.app_class.quit()
 
         if hasattr(context, "embed"):
