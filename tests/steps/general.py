@@ -13,8 +13,6 @@ import libvirt
 import libxml2
 from utils import get_showing_node_name
 
-TIMER = 0.2
-
 @step('About is shown')
 def about_shown(context):
     assert context.app.child('About Boxes') != None, "About window cannot be focused"
@@ -32,7 +30,7 @@ def does_box_exists(context, name, state):
                 break
         if found:
             break
-        sleep(5*TIMER)
+        sleep(1)
         counter += 1
 
     if state == 'does':
@@ -52,7 +50,6 @@ def number_of_windows(context, num):
 def customize_vm(context, mem):
     sleep(1)
     context.app.child('Customize…').click()
-    sleep(TIMER)
     pressKey('Tab')
     pressKey('Tab')
     memory_label = context.app.findChildren(lambda x: x.name == 'Memory: ' and x.showing)[0]
@@ -64,7 +61,6 @@ def customize_vm(context, mem):
         if counter == 100:
             break
     context.app.findChildren(lambda x: x.name == 'Back' and x.showing)[0].click()
-    sleep(TIMER)
 
 @step('Focus VM')
 def focus_vm(context):
@@ -79,7 +75,7 @@ def go_into_vm(context, vm):
     for child in pane.children:
         if child.text == vm:
             child.click()
-            sleep(3*TIMER)
+            sleep(0.5)
             break
 
 @step('Help is shown')
@@ -119,7 +115,6 @@ def press_back_in_vm(context, action, vm):
         panel.child('Keyboard shortcuts').click()
     else:
         context.app.child(vm).child(action).click()
-    sleep(TIMER)
 
 @step('Launch "{action}" for "{box}" box')
 def launch_action_for_box(context, action, box):
@@ -128,20 +123,18 @@ def launch_action_for_box(context, action, box):
     item.click(button=3)
     popup = context.app.findChildren(lambda x: x.name == 'Box actions' and x.roleName == 'popup menu' and x.showing)[0]
     popup.child(action).click()
-    sleep(TIMER)
 
 @step('Press "{action}" in alert')
 def press_back_in_prefs(context, action):
     button = context.app.child(roleName='alert').child(action)
     button.click()
-    sleep(TIMER)
 
 @step('Quit Boxes')
 def quit_boxes(context):
     keyCombo('<Ctrl><Q>')
     counter = 0
     while call('pidof gnome-boxes > /dev/null', shell=True) != 1:
-        sleep(TIMER)
+        sleep(0.25)
         counter += 1
         if counter == 100:
             raise Exception("Failed to turn off Boxes in 50 seconds")
@@ -151,13 +144,12 @@ def quit_boxes(context):
 def rename_vm(context, machine, name, way):
     if way == 'button':
         context.app.child(machine, roleName='push button').click()
-        sleep(TIMER)
     if way == 'label':
         context.app.child('General').child('Name').parent.child(roleName='text').click()
         keyCombo('<Ctrl><a>')
     typeText(name)
     pressKey('Enter')
-    sleep(TIMER)
+    sleep(0.5)
 
 def libvirt_domain_get_context(dom):
     xmldesc = dom.XMLDesc(0)
@@ -221,7 +213,7 @@ def get_ip_from_ip_neigh_cmd(mac, reachable):
         ret = cmd.wait()
         if out != "":
             return out.strip()
-        sleep(TIMER*3)
+        sleep(0.6)
         wait += 1
     return None
 
@@ -261,7 +253,6 @@ def select_vm(context, vm):
     for child in pane.children:
         if child.text == vm:
             child.click()
-            sleep(TIMER)
             break
 
 @step('Select "{action}" from supermenu')
@@ -304,7 +295,7 @@ def verify_existing_showkey_signals(context):
     # Turn down network so observer from outside the VM can say pass/fail.
     call("xdotool type --delay 100 ' ]]; then sudo ifconfig eth0 down; fi'", shell=True)
     call("xdotool key 'Return'", shell=True)
-    sleep(TIMER)
+    sleep(0.2)
 
 @step('Start box name "{box}"')
 def start_boxes_via_vm(context, box):
