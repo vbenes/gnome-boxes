@@ -158,7 +158,7 @@ def before_all(context):
         # Store scenario start time for session logs
         context.log_start_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
-        context.app_class = App('gnome-boxes', recordVideo=True)
+        context.app = App('gnome-boxes', recordVideo=True)
 
     except Exception as e:
         print("Error in before_all: %s" % e.message)
@@ -271,7 +271,7 @@ def after_scenario(context, scenario):
                         * Press "Delete"
                         * Close warning""")
                 #context.execute_steps(u"""* Quit Boxes""")
-                context.app_class.quit()
+                context.app.quit()
 
         if hasattr(context, "embed"):
             # Attach journalctl logs
@@ -281,15 +281,15 @@ def after_scenario(context, scenario):
             #     context.embed('text/plain', data, caption="Journal")
 
             # Attach stdout
-            stdout = non_block_read(context.app_class.process.stdout)
+            stdout = non_block_read(context.app.process.stdout)
             if stdout:
                 context.embed('text/plain', stdout, caption="Stdout")
 
-            stderr = non_block_read(context.app_class.process.stderr)
+            stderr = non_block_read(context.app.process.stderr)
             if stderr:
                 context.embed('text/plain', stderr, caption="Stderr")
 
-            if hasattr(context, "app_class") and context.app_class.recordVideo:
+            if hasattr(context, "app_class") and context.app.recordVideo:
                 videos_dir = os.path.expanduser('~/Videos')
                 onlyfiles = [f for f in os.listdir(videos_dir) if os.path.isfile(os.path.join(videos_dir, f))]
                 onlyfiles.sort()
