@@ -158,7 +158,7 @@ def before_all(context):
         # Store scenario start time for session logs
         context.log_start_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
-        context.app = App('gnome-boxes', recordVideo=True)
+        context.app_class = App('gnome-boxes', recordVideo=True)
 
     except Exception as e:
         print("Error in before_all: %s" % e.message)
@@ -258,12 +258,12 @@ def after_scenario(context, scenario):
                          """)
 
                 backs = []
-                backs = context.app.findChildren(lambda x: x.name == 'Back' and x.showing)
+                backs = context.app_class.findChildren(lambda x: x.name == 'Back' and x.showing)
                 if len(backs) != 0:
                     if backs[0].showing:
                         backs[0].click()
 
-                if context.app.child(roleName='layered pane').children != []:
+                if context.app_class.child(roleName='layered pane').children != []:
                     context.execute_steps(u"""
                         * Press "Select Items"
                         * Press "(Click on items to select them)"
@@ -271,7 +271,8 @@ def after_scenario(context, scenario):
                         * Press "Delete"
                         * Close warning""")
                 #context.execute_steps(u"""* Quit Boxes""")
-                context.app.quit()
+                
+                context.app_class.quit()
 
         if hasattr(context, "embed"):
             # Attach journalctl logs
@@ -281,15 +282,15 @@ def after_scenario(context, scenario):
             #     context.embed('text/plain', data, caption="Journal")
 
             # Attach stdout
-            stdout = non_block_read(context.app.process.stdout)
+            stdout = non_block_read(context.app_class.process.stdout)
             if stdout:
                 context.embed('text/plain', stdout, caption="Stdout")
 
-            stderr = non_block_read(context.app.process.stderr)
+            stderr = non_block_read(context.app_class.process.stderr)
             if stderr:
                 context.embed('text/plain', stderr, caption="Stderr")
 
-            if hasattr(context, "app_class") and context.app.recordVideo:
+            if hasattr(context, "app_class") and context.app_class.recordVideo:
                 videos_dir = os.path.expanduser('~/Videos')
                 onlyfiles = [f for f in os.listdir(videos_dir) if os.path.isfile(os.path.join(videos_dir, f))]
                 onlyfiles.sort()
