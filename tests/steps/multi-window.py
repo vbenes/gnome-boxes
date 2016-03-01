@@ -9,12 +9,14 @@ from utils import get_showing_node_rolename, get_showing_node_name
 
 def find_window(context, name):
     target = None
-    for window in context.app.children:
-        if window.name == name:
-            target = window
-
-            break
-
+    i = 0
+    while i < 5:
+        for window in context.app.children:
+            if window.name == name:
+                target = window
+                break
+        sleep(1)
+        i += 1
     if target == None:
         raise Exception("Window for %s was not found" %vm_name)
 
@@ -43,7 +45,6 @@ def open_new_windows(context, vm_names_list):
 
     # Click open in new windows
     context.app.findChildren(lambda x: x.name == button and x.showing and x.sensitive)[0].click()
-    sleep(5)
 
     for vm_name in vm_names:
         # Ensure we have a window for each box
