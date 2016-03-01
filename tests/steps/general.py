@@ -146,7 +146,7 @@ def rename_vm(context, machine, name, way):
         context.app.child('General').child('Name').parent.child(roleName='text').click()
         keyCombo('<Ctrl><a>')
     context.execute_steps(u"""
-        * Type "%s"
+        * Type text "%s" and return
         """ % name )
     sleep(0.5)
 

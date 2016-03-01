@@ -169,6 +169,7 @@ class App(object):
         self.process = Popen(self.appCommand.split() + self.parameters.split(),
                              stdout=PIPE, stderr=PIPE, bufsize=0)
         self.pid = self.process.pid
+
         sleep(1)
         return root.application(self.a11yAppName)
 

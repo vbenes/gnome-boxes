@@ -15,7 +15,6 @@ def get_showing_node_name(name, parent, timeout=30, step=0.25):
         if wait == timeout:
             raise Exception("Timeout: Node %s wasn't found showing" %name)
 
-    sleep(step)
     return parent.findChildren(lambda x: x.name == name and x.showing and x.sensitive)[0]
 
 def get_showing_node_rolename(rolename, parent, timeout=30, step=0.25):
