@@ -145,10 +145,10 @@ def rename_vm(context, machine, name, way):
     if way == 'label':
         context.app.child('General').child('Name').parent.child(roleName='text').click()
         keyCombo('<Ctrl><a>')
-        context.execute_steps(u"""
-            * Type "%s"
-            """ % name )
-        sleep(0.5)
+    context.execute_steps(u"""
+        * Type "%s"
+        """ % name )
+    sleep(0.5)
 
 def libvirt_domain_get_context(dom):
     xmldesc = dom.XMLDesc(0)
