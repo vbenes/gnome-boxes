@@ -139,15 +139,18 @@ def before_all(context):
 
             # Download Core-5.3.iso and images for import if not there
             downloadfile('http://distro.ibiblio.org/tinycorelinux/5.x/x86/archive/5.3/Core-5.3.iso')
-            downloadfile('http://distro.ibiblio.org/tinycorelinux/6.x/x86/release/Core-current.iso')
+            # vv this is now not working using workaround
+            # downloadfile('http://distro.ibiblio.org/tinycorelinux/7.x/x86/release/Core-current.iso')
+            downloadfile('http://distro.ibiblio.org/tinycorelinux/7.x/x86/release/Core-7.0.iso')
+            call('mv -f ~/Downloads/Core-7.0.iso ~/Downloads/Core-current.iso', shell=True)
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.vmdk')
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.qcow2')
             call('cp ~/Downloads/Core-5.3.iso /tmp', shell=True)
             call('cp ~/Downloads/Core-5.3.qcow2 /tmp', shell=True)
             if os.path.isfile('/home/test/Downloads/Core-current.iso') and \
-               os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
-               os.path.isfile('/tmp/Core-5.3.vmdk') and \
-               os.path.isfile('/tmp/Core-5.3.qcow2'):
+                os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
+                os.path.isfile('/tmp/Core-5.3.vmdk') and \
+                os.path.isfile('/tmp/Core-5.3.qcow2'):
                 print ("* Downloading complete!")
                 call('touch /tmp/boxes_configured', shell=True)
 
