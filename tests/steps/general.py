@@ -27,8 +27,9 @@ def does_box_exists(context, name, state):
         for child in pane.children:
             if child.text == name:
                 found = True
-                break
-        if found:
+        if state == 'does' and found:
+            break
+        if state == 'does not' and not found:
             break
         sleep(1)
         counter += 1
@@ -48,7 +49,6 @@ def number_of_windows(context, num):
 
 @step('Customize mem to "{mem}" MB')
 def customize_vm(context, mem):
-    sleep(1)
     context.app.child('Customize…').click()
     pressKey('Tab')
     pressKey('Tab')
@@ -81,10 +81,8 @@ def go_into_vm(context, vm):
 @step('Help is shown')
 def help_shown(context):
     sleep(1)
-    yelp = root.application('yelp').child('Boxes')
-    call("pkill -9 yelp", shell=True)
-    sleep(2)
-    assert yelp != None, "Yelp wasn't opened"
+    yelp = root.application('yelp')
+    assert yelp.child('Boxes') != None, "Yelp wasn't opened"
 
 @step('Install TC Linux package "{pkg}" and wait "{time}" seconds')
 def install_tc_linux_package(context, pkg, time):
@@ -134,7 +132,7 @@ def quit_boxes(context):
     keyCombo('<Ctrl><Q>')
     counter = 0
     while call('pidof gnome-boxes > /dev/null', shell=True) != 1:
-        sleep(0.25)
+        sleep(0.5)
         counter += 1
         if counter == 100:
             raise Exception("Failed to turn off Boxes in 50 seconds")
@@ -213,7 +211,7 @@ def get_ip_from_ip_neigh_cmd(mac, reachable):
         ret = cmd.wait()
         if out != "":
             return out.strip()
-        sleep(0.6)
+        sleep(0.25)
         wait += 1
     return None
 
@@ -257,7 +255,6 @@ def select_vm(context, vm):
 
 @step('Select "{action}" from supermenu')
 def select_menu_action(context, action):
-    sleep(0.5)
     keyCombo("<Super_L><F10>")
     gs = GnomeShell()
     buttons = gs.getApplicationMenuList()
@@ -295,7 +292,7 @@ def verify_existing_showkey_signals(context):
     # Turn down network so observer from outside the VM can say pass/fail.
     call("xdotool type --delay 100 ' ]]; then sudo ifconfig eth0 down; fi'", shell=True)
     call("xdotool key 'Return'", shell=True)
-    sleep(0.2)
+    sleep(0.5)
 
 @step('Start box name "{box}"')
 def start_boxes_via_vm(context, box):
