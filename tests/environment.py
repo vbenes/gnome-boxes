@@ -152,7 +152,7 @@ def before_all(context):
 
             if os.path.isfile('/home/test/Downloads/Core-current.iso') and \
                 os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
-                os.path.isfile('/tmp/Core-5.3.vmdk') and \
+                os.path.isfile('/tmp/Core-5.3.iso') and \
                 os.path.isfile('/tmp/Core-5.3.qcow2'):
                 print ("* Downloading complete!")
                 call('touch /tmp/boxes_configured', shell=True)
