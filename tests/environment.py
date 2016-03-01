@@ -142,17 +142,23 @@ def before_all(context):
             # vv this is now not working using workaround
             # downloadfile('http://distro.ibiblio.org/tinycorelinux/7.x/x86/release/Core-current.iso')
             downloadfile('http://distro.ibiblio.org/tinycorelinux/7.x/x86/release/Core-7.0.iso')
-            call('mv -f ~/Downloads/Core-7.0.iso ~/Downloads/Core-current.iso', shell=True)
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.vmdk')
             downloadfile('https://dl.dropboxusercontent.com/u/93657599/vbenes/Core-5.3.qcow2')
             call('cp ~/Downloads/Core-5.3.iso /tmp', shell=True)
             call('cp ~/Downloads/Core-5.3.qcow2 /tmp', shell=True)
+            if not os.path.isfile('/home/test/Downloads/Core-current.iso'):
+                downloadfile('http://distro.ibiblio.org/tinycorelinux/7.x/x86/release/Core-current.iso')
+                call('mv -f ~/Downloads/Core-7.0.iso ~/Downloads/Core-current.iso', shell=True)
+                print ("* Using 7.0 as Core-current as download is broken from time to time")
+
             if os.path.isfile('/home/test/Downloads/Core-current.iso') and \
                 os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
                 os.path.isfile('/tmp/Core-5.3.vmdk') and \
                 os.path.isfile('/tmp/Core-5.3.qcow2'):
                 print ("* Downloading complete!")
                 call('touch /tmp/boxes_configured', shell=True)
+            else:
+                print ("* Downloading broken let's give it another try next time")
 
         # Skip dogtail actions to print to stdout
         config.logDebugToStdOut = False
