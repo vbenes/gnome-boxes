@@ -154,6 +154,7 @@ def before_all(context):
                 os.path.isfile('/home/test/Downloads/Core-5.3.iso') and \
                 os.path.isfile('/tmp/Core-5.3.iso') and \
                 os.path.isfile('/tmp/Core-5.3.qcow2'):
+                call('tracker-control -f /home/test/Downloads/Core-current.iso', shell=True)
                 print ("* Downloading complete!")
                 call('touch /tmp/boxes_configured', shell=True)
             else:
