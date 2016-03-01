@@ -37,7 +37,7 @@ Feature: General
 
   @download_iso_http
   Scenario: Download iso http
-    * Create new box from url "http://ftp.vim.org/os/Linux/distr/tinycorelinux/6.x/x86_64/archive/6.3/CorePure64-6.3.iso"
+    * Create new box from url "http://distro.ibiblio.org/tinycorelinux/6.x/x86_64/release/CorePure64-6.4.1.iso"
     * Wait for "sleep 2" end
     * Hit "Enter"
     * Save IP for machine "CorePure64-6"

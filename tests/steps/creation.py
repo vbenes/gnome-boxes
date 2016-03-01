@@ -51,7 +51,9 @@ def create_new_vm_via_url(context, url):
     context.app.child('Continue').click()
     context.app.child('Enter URL').click()
 
-    typeText(url)
+    context.execute_steps(u"""
+        * Type "%s"
+        """ %url )
     context.app.child('Continue').click()
 
     if url.find('http') != -1:
