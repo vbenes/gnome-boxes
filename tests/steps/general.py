@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 from behave import step
 from dogtail.tree import root
-from dogtail.rawinput import typeText, pressKey, keyCombo
+from dogtail.rawinput import pressKey, keyCombo
 from dogtail.utils import GnomeShell
 from time import sleep
 from common_steps import wait_until
@@ -145,9 +145,10 @@ def rename_vm(context, machine, name, way):
     if way == 'label':
         context.app.child('General').child('Name').parent.child(roleName='text').click()
         keyCombo('<Ctrl><a>')
-    typeText(name)
-    pressKey('Enter')
-    sleep(0.5)
+        context.execute_steps(u"""
+            * Type "%s"
+            """ % name )
+        sleep(0.5)
 
 def libvirt_domain_get_context(dom):
     xmldesc = dom.XMLDesc(0)

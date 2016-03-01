@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 from behave import step
-from dogtail.rawinput import typeText, pressKey
+from dogtail.rawinput import pressKey
 from time import sleep
 from utils import get_showing_node_name
 
@@ -36,7 +36,9 @@ def add_snapshot(context, name):
         renames = context.app.findChildren(lambda x: x.name == 'Rename' and x.showing)
     renames[0].click()
     sleep(0.5)
-    typeText(name)
+    context.execute_steps(u"""
+        * Type "%s"
+        """ % name )
     context.app.findChildren(lambda x: x.showing and x.name == 'Done')[0].click()
 
 @step('Create snapshot "{snap_name}" from machine "{vm_name}"')

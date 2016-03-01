@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 from behave import step
-from dogtail.rawinput import typeText, pressKey, keyCombo
+from dogtail.rawinput import pressKey, keyCombo
 from time import sleep
 from subprocess import call, check_output, CalledProcessError, STDOUT
 import pexpect

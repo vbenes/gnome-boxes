@@ -2,7 +2,6 @@
 
 from __future__ import unicode_literals
 from behave import step
-from dogtail.rawinput import typeText
 from dogtail.predicate import GenericPredicate
 from time import sleep
 from utils import get_showing_node_name
